@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+<div sec:authorize="isAnonymous()">
+    <form th:action="@{/showLoginPage}">
+        <input type="submit" value="Login">
+    </form>
+
+    <form action="#" th:action="@{/showSignUpPage}">
+        Create New User<input type="submit" value="NewUser">
+    </form>
+</div>
+<br><br>
+
+<form th:action="@{/search}">
+    Search: <input type="text" th:value="${theSearchName}" name="theSearchName"/>
+    <input type="submit" value="Search"/>
+</form>
+
+<br><br>
+
+<form th:action="@{/sorting}">
+    <select name="sort">
+        <option value="1">Oldest</option>
+        <option value="2">Latest</option>
+        <input type="submit" value="sort">
+    </select>
+</form>
+
+<br><br>
+
+<h3>Filter</h3>
+<form th:action="@{/filter}">
+
+    <select name="filter" multiple>
+        <option
+                th:each="var: ${tags}" th:value="${var.name}" th:text="${var.name}">
+        </option>
+    </select>
+
+    <select name="filterAuthor" multiple>
+        <option
+                th:each="var: ${authors}" th:value="${var}" th:text="${var}">
+        </option>
+    </select>
+    <button type="submit">Filter</button>
+
+</form>
+<br><br>
+<div sec:authorize="isAuthenticated()">
+    <form action="#" th:action="@{/showPageForWriting}">
+        Create New Post<input type="submit" value="NewPost">
+    </form>
+</div>
+<br><br>
+
+<div class="container">
+    <div th:each="var : ${posts}">
+        <div class="child">
+            <form action="#" th:action="@{/viewCompleteStory}">
+                <button type="submit" th:value="${var.id}" name="storyId">
+                    <h3><span th:text="${ var.title}"></span></h3>
+                    <h3>Author: <span th:text="${ var.author}"></span></h3>
+                    <span th:text="${ var.publishedAt}"></span><br/>
+                    <span th:text="${ var.content.substring(0,600)}"></span><br/>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<br><br>
+
+<form th:action="@{/sorting}">
+    <select name="pageNo" >
+        <option
+                th:each="var: ${list}" th:value="${var}" th:text="${var}">
+        </option>
+    </select>
+    <input type="hidden" name="sort" th:value="${sort}" >
+    <button type="submit">Search</button>
+</form>
+<br><br>
+<form action="#" th:action="@{/dashboard}">
+    <input type="submit" value="Back to Dashboard">
+</form>
+
+<br><br>
+
+<div sec:authorize="isAuthenticated()">
+    <form action="#" th:action="@{/logout}" method="POST">
+        <input type="submit" value="Logout">
+    </form>
+</div>
+
+</body>
+</html>

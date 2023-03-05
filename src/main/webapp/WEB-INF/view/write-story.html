@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="NewBlog"></title>
+</head>
+<body>
+<h2>Write your story</h2>
+<br><br>
+<form action="#" th:action="@{/saveStory}" th:object="${story}">
+    <input type="hidden" th:value="${story.getId}" name="storyId">
+    Title : <input type="text" th:field="*{title}"/><br><br>
+    Tags : <input type="text" name="tagDetail"/><br><br>
+    Author : <input type="text" th:field="*{author}"/><br><br>
+    Content : <textarea th:field="*{content}" rows="25" cols="100"></textarea><br><br>
+    <button type="submit"> Submit</button>
+</form>
+</body>
+</html>

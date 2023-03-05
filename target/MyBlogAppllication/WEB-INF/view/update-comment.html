@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+<form action="#" th:action="@{/update}" th:object="${theComment}">
+    <label>Name</label>
+    <input th:field="*{name}"/><br>
+    <label>Email</label>
+    <input th:field="*{email}"/><br>
+    <label>Comment</label>
+    <textarea th:field="*{comment}" rows="3" cols="25" ></textarea>
+    <input type="hidden" name="storyId" th:value="${thePost.id}"/>
+    <input type="hidden" name="commentId" th:value="${theComment.id}"/>
+    <button type="submit" >Submit</button>
+
+</form>
+</body>
+</html>

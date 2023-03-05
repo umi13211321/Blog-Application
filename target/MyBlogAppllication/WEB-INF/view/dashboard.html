@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+</head>
+<body>
+
+<div sec:authorize ="isAnonymous()">
+    <form th:action="@{/showLoginPage}">
+        <input type="submit" value="Login">
+    </form>
+
+    <form action="#" th:action="@{/showSignUpPage}">
+        Create New User<input type="submit" value="NewUser">
+    </form>
+
+</div>
+<br><br>
+
+
+<form th:action="@{/search}">
+    Search: <input type="text" name="theSearchName" />
+    <input type="submit" value="Search"  />
+</form>
+
+<br><br>
+
+<form th:action="@{/sorting}">
+    <select name="sort">
+        <option value="1">Ascending Order</option>
+        <option value="2">Descending Order</option>
+        <input type="submit" value="sort">
+    </select>
+</form>
+
+<br><br>
+
+<h3>Filter</h3>
+<form th:action="@{/filter}">
+
+    <select name="filter" multiple>
+        <option
+                th:each="var: ${tags}" th:value="${var.name}" th:text="${var.name}" >
+        </option>
+    </select>
+
+    <select name="filterAuthor" multiple>
+        <option
+                th:each="var: ${posts}" th:value="${var.author}" th:text="${var.author}">
+        </option>
+    </select>
+    <button type="submit">Filter</button>
+
+</form>
+<div sec:authorize ="isAuthenticated()">
+    <form action="#" th:action="@{/showPageForWriting}">
+        Create New Post<input type="submit" value="NewPost">
+    </form>
+</div>
+
+
+<div class="container" >
+    <div th:each="var : ${posts}">
+        <div class="child">
+            <form action="#" th:action="@{/viewCompleteStory}">
+                <button type="submit" th:value="${var.id}" name="storyId">
+                    <span th:text="${ var.title}"></span><br />
+                    <span th:text="${ var.author}"></span><br />
+                    <span th:text="${ var.publishedAt}"></span><br />
+                    <span th:text="${ var.content.substring(0,500)}"></span><br />
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<br><br>
+
+<div>
+    <a th:if="${previous} > -1" th:href="@{/dashboard(pageNo=${previous})}">Previous</a>
+    <a th:if="${next} > 0" th:href="@{/dashboard(pageNo=${next})}">Next</a>
+</div>
+
+<br><br>
+
+<div sec:authorize ="isAuthenticated()">
+    <form action="#" th:action="@{/logout}"  method="POST">
+        <input type="submit" value="Logout">
+    </form>
+</div>
+
+
+</body>
+</html>
